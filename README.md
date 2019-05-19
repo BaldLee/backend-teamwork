@@ -1,6 +1,6 @@
 # Milestone 2: CI
 
-##Intro
+## Intro
 
 In this section, we build and test the project finished in homework 3 through continuous integration (CI) using **Jenkins** integrated with github.
 
@@ -8,7 +8,7 @@ In this section, we build and test the project finished in homework 3 through co
 Jenkins, github
 
 ## Characteristic
-0. Use Jenkins blueOcean pipeline and Jenkinsfile.
+1. Use Jenkins blueOcean pipeline and Jenkinsfile.
 1. Every push to the github will trigger a Jenkins event.
 2. Every pull request in github will trigger a Jenkins event.
 3. Jenkins will notify github if one pull request passes CI build and test or not. Here is an example where a pull request passed CI.
@@ -37,6 +37,7 @@ There is basically no explicit configuration using the new jenkins UI blueOcean.
 Generally, we need to deploy our Jenkins on a server. Here, for simplicity, we use ngrok to map our local port to public url. For more info about ngrok, look at [here](https://dashboard.ngrok.com/get-started)
 ![](images_for_readme/ngrok.png)
 ![](images_for_readme/config_github.png)
+
 **DON'T FORGET /github-webhook/** when input payload url
 
 ## Jenkinsfile
