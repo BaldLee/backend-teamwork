@@ -41,6 +41,6 @@ Generally, we need to deploy our Jenkins on a server. Here, for simplicity, we u
 **DON'T FORGET /github-webhook/** when input payload url
 
 ## Jenkinsfile
-The default of blue ocean will find Jenkinsfile in the github project.
+The default behavior of blue ocean is to find Jenkinsfile in the github project.
 We use another maven project container inside the Jenkins container to build and test the maven project.
 
