@@ -1,0 +1,19 @@
+server:
+  port: 8082
+  context-path: /wordLadder
+  session:
+    cookie:
+      name: UISESSION
+
+
+security:
+  basic:
+    enabled: false
+  oauth2:
+    client:
+      clientId: ClientId
+      clientSecret: secret
+      accessTokenUri: http://${AUTH_SERVER:localhost}:8081/auth/oauth/token
+      userAuthorizationUri: http://${AUTH_SERVER:localhost}:8081/auth/oauth/authorize
+    resource:
+      userInfoUri: http://${AUTH_SERVER:localhost}:8081/auth/principal
