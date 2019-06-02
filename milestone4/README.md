@@ -15,19 +15,11 @@ Rating book server serves as a consumer of book server. It will use the info acq
 5. turn on book server multiple times to create instances server. You don't need to worry about the port conflict between these instances. The program will asign port for each instances randomly. You can find the port in the INFO LOG of the server.
 6. turn on rating book server. Default port is 8083.
 
-## Customed Ribbon Rule in rating-book-service 
-You can find the customed Ribbon Rule [here](/rating-book-service/src/main/java/com/se418/ratingbookservice/MyRandomRule.java)
-
-In the Rule, I simply change the possibility of one instance twice than any other. 
-
-For example, The possiblility of the three instance server is 2/4, 1/4, 1/4.
-
-I use apache bench to send 1000 requests.
-```
-ab -n 1000 -c 1 "http://localhost:8083/"
-```
-the result is as follows
-![](images_for_readme/MyRandomRule/1.png)
-![](images_for_readme/MyRandomRule/2.png)
-![](images_for_readme/MyRandomRule/3.png)
-PS: You can use prometheus and grafana to visualize the result.
+## New Progress
+What's different from the last milestone?
+### Gateway
+Now nginx are comined with zuul to work as the gateway and also the loadbalancer distributing requests from clients on the server end, thus making nginx the first layer of the whole service system. Though not configured yet, multiple zuuls are preferred in order to improve the high availability of the architecture. We keep nginx listening on the port 10010 as the entrance for zuul. Visit http://localhost:10010/service_name to access the corresponding service(service_name here are replaced by one of the five services mentioned above).
+### Feign
+Rating book service has been upgraded to a Feign service, endowed with the ability to invoke other services by methods based on the interface while no explicit http requests included. 
+### Hystrix
+Hystrix works as a circuit breaker which can coordinate with the loadbalancer well. When service is trapped in an exception or some other weird situation, or maybe just don't perform as expected, hystrix automatically breaks it and calls a fallback to ensure the other normally performed services move on the right track. We can monitor the performance of requests handling by the tool of hystrix dashboard which is on enabled on the port 8083(the same as the feign service itself to simplify the structure). 
