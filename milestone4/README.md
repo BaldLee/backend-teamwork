@@ -1,4 +1,4 @@
-# MileStone 3: basic Microservice Architecture
+# MileStone 4: Spring Cloud II
 
 ## Intro
 In this project, there are 5 services: config server, discovery server, gateway, book server, rating book server.
