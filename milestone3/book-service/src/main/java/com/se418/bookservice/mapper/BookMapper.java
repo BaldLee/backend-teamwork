@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Mapper
-@Component
+@Component("bookMapper")
 public interface BookMapper {
     @Select("SELECT * FROM book")
     List<Book> selectAll();

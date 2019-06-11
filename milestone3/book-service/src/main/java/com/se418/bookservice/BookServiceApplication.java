@@ -1,6 +1,7 @@
 package com.se418.bookservice;
 
 import com.se418.bookservice.mapper.BookMapper;
+import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -12,6 +13,7 @@ import java.util.List;
 @SpringBootApplication
 @EnableEurekaClient
 @RestController
+@MapperScan("com.se418.bookservice.mapper")
 public class BookServiceApplication {
 //    @Value("${eureka.instance.instance-id}")
 //    private String instanceId;
