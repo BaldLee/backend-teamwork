@@ -17,14 +17,7 @@ import org.springframework.web.client.RestTemplate;
 @RestController
 @RibbonClient(name = "server", configuration = RibbonConfiguration.class)
 public class RatingBookServiceApplication {
-    @Autowired
-    private RestTemplate restTemplate;
 
-    @LoadBalanced
-    @Bean
-    RestTemplate restTemplate() {
-        return new RestTemplate();
-    }
 
 //    @GetMapping("/")
 //    public String handleRequest(@RequestParam long id, @RequestParam int rate) {

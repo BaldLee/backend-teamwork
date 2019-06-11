@@ -38,9 +38,9 @@ public class RatingBookController {
         //check legality
         Book book = restTemplate.getForObject("http://book-server/books/" + bookId, Book.class);
         if (book == null) return "rate failed";
-        HttpSession session = null;
-        String userCheck = restTemplate.postForObject("http://book-server/login/check_session", session, String.class);
-        if (userCheck == "failure") return "rate failed";
+//        HttpSession session = null;
+//        String userCheck = restTemplate.postForObject("http://book-server/login/check_session", session, String.class);
+//        if (userCheck == "failure") return "rate failed";
 
         Rate rate = new Rate(userId, bookId, point, now);
         rateRepository.save(rate);
