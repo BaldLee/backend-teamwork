@@ -34,4 +34,8 @@ public class Book {
         this.author = author;
         this.title = title;
     }
+
+    public Book() {
+    }
+
 }
