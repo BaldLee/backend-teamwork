@@ -1,0 +1,12 @@
+/home/liu/Desktop/backend-teamwork3/rating-book-service/src/main/java/com/se418/ratingbookservice/RatingBookServiceApplication.java
+/home/liu/Desktop/backend-teamwork3/rating-book-service/src/main/java/com/se418/gateway/UserPrinciple.java
+/home/liu/Desktop/backend-teamwork3/rating-book-service/src/main/java/com/se418/ratingbookservice/entity/User.java
+/home/liu/Desktop/backend-teamwork3/rating-book-service/src/main/java/com/se418/ratingbookservice/BookClient.java
+/home/liu/Desktop/backend-teamwork3/rating-book-service/src/main/java/com/se418/gateway/User.java
+/home/liu/Desktop/backend-teamwork3/rating-book-service/src/main/java/com/se418/ratingbookservice/RatingBookController.java
+/home/liu/Desktop/backend-teamwork3/rating-book-service/src/main/java/com/se418/ratingbookservice/entity/Rate.java
+/home/liu/Desktop/backend-teamwork3/rating-book-service/src/main/java/com/se418/ratingbookservice/SecurityConfig.java
+/home/liu/Desktop/backend-teamwork3/rating-book-service/src/main/java/com/se418/ratingbookservice/SessionConfig.java
+/home/liu/Desktop/backend-teamwork3/rating-book-service/src/main/java/com/se418/ratingbookservice/entity/Book.java
+/home/liu/Desktop/backend-teamwork3/rating-book-service/src/main/java/com/se418/ratingbookservice/RibbonConfiguration.java
+/home/liu/Desktop/backend-teamwork3/rating-book-service/src/main/java/com/se418/ratingbookservice/RateRepository.java

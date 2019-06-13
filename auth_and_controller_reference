@@ -1,0 +1,120 @@
+image
+no auth
+@GetMapping(value="/books/{bookId}", produces = {MediaType.IMAGE_JPEG_VALUE, MediaType.IMAGE_PNG_VALUE})
+    public byte[] getImageById(@PathVariable Long bookId){
+        return imageRepository.findByBookId(bookId).get().getImage().getData();
+    }
+
+    @DeleteMapping("/books/{bookId}")
+    public ResponseEntity<?> deleteByID(@PathVariable Long bookId){
+        imageRepository.deleteByBookId(bookId);
+        return ResponseEntity.ok().body("delete book successfully!");
+    }
+
+    @PutMapping("/books/{bookId}")
+    public Image updateImageById(@PathVariable Long bookId, @RequestParam(value="book") MultipartFile file) throws IOException {
+        Image image = imageRepository.findByBookId(bookId).orElse(new Image(bookId, new Binary(file.getBytes())));
+        image.setImage(new Binary(file.getBytes()));
+        return imageRepository.save(image);
+    }
+
+    @PostMapping("/books/{bookId}")
+    public Image insertImageById(@PathVariable Long bookId, @RequestParam(value="book") MultipartFile file) throws IOException {
+        Image image = new Image(bookId, new Binary(file.getBytes()));
+        return imageRepository.save(image);
+    }
+
+
+book
+
+@GetMapping("/books")
+    public Iterable<Book> findAllBooks() {
+        return bookRepository.findAll();
+    }
+ 
+    @GetMapping("/books/{bookId}")
+    public Book findBook(@PathVariable Long bookId) {
+        return bookRepository.findById(bookId).orElse(null);
+    }
+
+    @PostMapping("/remove/{bookId}")
+    public void deleteBook(@PathVariable long BookId) {
+        bookRepository.deleteById(BookId);
+    }
+
+    @PostMapping("/insert")
+    private void insertBook(@RequestBody Book book ) {
+        bookRepository.save(book);
+    }
+    @PostMapping("/update/{id}")
+    private void updateBook(@PathVariable Long id, @RequestBody Book book){
+        book.setId(id);
+        bookRepository.save(book);
+    }
+
+.antMatchers(HttpMethod.GET, "/books").permitAll()
+                .antMatchers(HttpMethod.GET, "/books/*").permitAll()
+                .antMatchers(HttpMethod.POST, "/books").hasRole("ADMIN")
+                .antMatchers(HttpMethod.PATCH, "/books/*").hasRole("ADMIN")
+                .antMatchers(HttpMethod.DELETE, "/books/*").hasRole("ADMIN")
+
+
+
+rating book service
+
+@GetMapping("/insertRate")
+    public String rate(@RequestParam long userId, @RequestParam long bookId, @RequestParam int point) {
+        //get current time
+        Calendar calendar = Calendar.getInstance();
+        Timestamp now = new Timestamp(calendar.getTimeInMillis());
+
+        //check legality
+        Book book = bookClient.getBook(bookId).orElse(null);
+
+        if (book == null) return "rate failed";
+        Rate rate = new Rate(userId, bookId, point, now);
+        rateRepository.save(rate);
+        return "rate succeeded";
+    }
+
+    @GetMapping("/getRate/users/{userId}")
+    public Iterable<Rate> getRate(@PathVariable Long userId){
+        return rateRepository.findByUserId(userId);
+    }
+
+    @GetMapping("/getRate/books/{bookId}")
+    public Iterable<Rate> getRateByBookId(@PathVariable Long bookId){
+        return rateRepository.findByBookId(bookId);
+    }
+
+.authorizeRequests()
+                .antMatchers("/getRate/**").permitAll()
+                .antMatchers("/insertRate/**").hasRole("USER")
+                .anyRequest().authenticated()
+
+
+user
+
+@RestController
+public class UserController {
+    @Autowired
+    private UserRepository userRepository;
+
+    @GetMapping("/users/id/{id}")
+    public User getUser(@PathVariable Long id) {
+        return userRepository.findById(id).orElse(null);
+    }
+
+    @PostMapping("/signup")
+    public User postUser(@RequestBody User user){
+        return userRepository.save(user);
+    }
+
+
+    @GetMapping("/users/username/{username}")
+    public User getByUsername(@PathVariable String username){
+        return userRepository.findByUsername(username).orElse(null);
+    }
+}
+
+no auth

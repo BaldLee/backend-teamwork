@@ -1,0 +1,12 @@
+com/se418/gateway/UserPrinciple.class
+com/se418/gateway/User.class
+com/se418/ratingbookservice/entity/User.class
+com/se418/ratingbookservice/RateRepository.class
+com/se418/ratingbookservice/SecurityConfig.class
+com/se418/ratingbookservice/entity/Book.class
+com/se418/ratingbookservice/SessionConfig.class
+com/se418/ratingbookservice/BookClient.class
+com/se418/ratingbookservice/RibbonConfiguration.class
+com/se418/ratingbookservice/RatingBookServiceApplication.class
+com/se418/ratingbookservice/entity/Rate.class
+com/se418/ratingbookservice/RatingBookController.class
