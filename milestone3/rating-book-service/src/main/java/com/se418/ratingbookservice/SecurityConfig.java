@@ -1,4 +1,4 @@
-package com.se418.bookservice;
+package com.se418.ratingbookservice;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
@@ -23,11 +23,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.httpBasic()
                 .disable()
                 .authorizeRequests()
-                .antMatchers(HttpMethod.GET, "/books").permitAll()
-                .antMatchers(HttpMethod.GET, "/books/*").permitAll()
-                .antMatchers(HttpMethod.POST, "/books").hasRole("ADMIN")
-                .antMatchers(HttpMethod.PATCH, "/books/*").hasRole("ADMIN")
-                .antMatchers(HttpMethod.DELETE, "/books/*").hasRole("ADMIN")
+                .antMatchers("/getRate/**").permitAll()
+                .antMatchers("/insertRate/**").hasRole("USER")
                 .anyRequest().authenticated()
                 .and()
                 .csrf()
