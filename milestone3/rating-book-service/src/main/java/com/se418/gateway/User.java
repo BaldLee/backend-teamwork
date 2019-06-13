@@ -1,4 +1,4 @@
-package com.se418.ratingbookservice.gateway;
+package com.se418.gateway;
 
 public class User {
     private Long id;
