@@ -36,7 +36,7 @@ public class RatingBookController {
         Timestamp now = new Timestamp(calendar.getTimeInMillis());
 
         //check legality
-        Book book = restTemplate.getForObject("http://book-server/books/" + bookId, Book.class);
+        Book book = restTemplate.getForObject("http://book-service/books/" + bookId, Book.class);
         if (book == null) return "rate failed";
 //        HttpSession session = null;
 //        String userCheck = restTemplate.postForObject("http://book-server/login/check_session", session, String.class);
