@@ -30,7 +30,7 @@ public class UserServiceApplicationTests {
 
 	@Before
 	public void setup(){
-		mvc = MockMvcBuilders.webAppContextSetup(context).apply(springSecurity()).build();
+		mvc = MockMvcBuilders.webAppContextSetup(context).build();
 	}
 
 
@@ -43,11 +43,11 @@ public class UserServiceApplicationTests {
 				.andExpect(status().isOk());
 		mvc.perform(get("/users").contentType(MediaType.APPLICATION_JSON))
 				.andDo(MockMvcResultHandlers.print())
-				.andExpect(status().isOk())
+				.andExpect(status().is(404))
 				.andReturn().getResponse().getContentAsString();
-		mvc.perform(get("/users/1").contentType(MediaType.APPLICATION_JSON))
+		mvc.perform(get("/users/id/1").contentType(MediaType.APPLICATION_JSON))
 				.andExpect(status().isOk());
-		mvc.perform(get("/books").contentType(MediaType.APPLICATION_JSON))
+		mvc.perform(get("/users/username/liu").contentType(MediaType.APPLICATION_JSON))
 				.andExpect(status().isOk());
 	}
 

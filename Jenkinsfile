@@ -20,6 +20,8 @@ pipeline {
 	stage('Test') {
             steps {
                 sh "cd book-service && mvn -Dspring.profiles.active=test test"
+		sh "cd user-service && mvn -Dspring.profiles.active=test test"
+		sh "cd image-service && mvn -Dspring.profiles.active=test test"
             }
         }
 	
