@@ -27,19 +27,23 @@ public class BookServiceApplication {
         return bookRepository.findById(bookId).orElse(null);
     }
 
-    @PostMapping("/remove/{bookId}")
-    public void deleteBook(@PathVariable long BookId) {
-        bookRepository.deleteById(BookId);
+    @DeleteMapping("/books/{bookId}")
+    public String deleteBook(@PathVariable long bookId) {
+        bookRepository.deleteById(bookId);
+        return "delete succeed!";
     }
 
-    @PostMapping("/insert")
-    private void insertBook(@RequestBody Book book ) {
-        bookRepository.save(book);
+    @PostMapping("/books")
+    private Book insertBook(@RequestBody Book book ) {
+        return bookRepository.save(book);
     }
-    @PostMapping("/update/{id}")
-    private void updateBook(@PathVariable Long id, @RequestBody Book book){
+
+    @PutMapping("/books/{id}")
+    private Book updateBook(@PathVariable Long id, @RequestBody Book book){
+        if(bookRepository.findById(id).orElseThrow(null) == null)
+            return null;
         book.setId(id);
-        bookRepository.save(book);
+        return bookRepository.save(book);
     }
 
 }
