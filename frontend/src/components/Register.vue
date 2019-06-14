@@ -23,6 +23,8 @@
       <el-button @click="resetForm('ruleForm')">重置</el-button>
     </el-form-item>
   </el-form>
+
+  
 </template>
 
 <script>
@@ -51,10 +53,7 @@
       let validateName = (rule, value, callback) => {
         if (value === ''){
           callback(new Error('用户名不能为空'));
-        } else if (this.repeat(value))
-        {
-          callback(new Error('用户名已存在'));
-        } else callback();
+        }  else callback();
       };
       return {
         ruleForm: {
@@ -84,10 +83,12 @@
           if (valid) {
             alert("注册成功！");
             this.axios({
-              url:"localhost:8080/user-service/signup/process",
-              params:{username:this.ruleForm.userName, password:this.ruleForm.pass, phone:this.ruleForm.phone, email:this.ruleForm.email, address:this.ruleForm.address, realname:this.ruleForm.name}
-             , headers:{'Content-Type':'application/x-www-form-urlencoded;charset=UTF-8'}
+              url:"/user-service/signup",
+              method:"post",
+              data:{username:this.ruleForm.userName, password:this.ruleForm.pass}
+             ,headers:{'Content-Type':'application/json;charset=UTF-8'}
             });
+          
             this.$router.push("/login");
           } else {
             console.log('error submit!!');
@@ -97,19 +98,23 @@
       },
       resetForm(formName) {
         this.$refs[formName].resetFields();
-      },
-      async repeat(name) {
-        let b = true;
-        let a = await this.axios(
-          {
-            url:"localhost:8080/user-service/checkUser",
-            params:{username: name},
-            method:"get",
-            headers:{'Content-Type':'application/x-www-form-urlencoded;charset=UTF-8'}
-          }
-        ).then(res => {b = res.data;});
-      return b;
       }
+      // ,
+      // async repeat(name) {
+      //   let b = true;
+      //   let a = await this.axios(
+      //     {
+      //       url:"localhost:8080/user-service/checkUser",
+      //       params:{username: name},
+      //       method:"get",
+      //       headers:{'Content-Type':'application/x-www-form-urlencoded;charset=UTF-8'}
+      //     }
+      //   ).then(res => {b = res.data;});
+      // return b;
+      // }
+    },
+    deactivated(){
+      this.$destroy();
     }
 
   }

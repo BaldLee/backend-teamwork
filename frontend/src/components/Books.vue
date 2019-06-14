@@ -1,7 +1,7 @@
 <template>
   <el-container class="container">
     <el-header class="header">
-      <img :src="'localhost:8080/image-service/'+book.id" :alt="book.id">
+      <img :src="'http://localhost:8080/image-service/books/'+book.id" :alt="book.id">
     </el-header>
     <el-main>
       <h4>{{this.book.title}}({{this.book.author}})</h4>
@@ -23,12 +23,38 @@
     methods:{
       rateBook() {
         this.disabled=true;
-        //评分this.books this.rate
+        this.axios({
+          url:"/rating-book-service/insertRate",
+          method:"get",
+          params:{userId:this.$store.getters.getId,bookId:this.book.id,point:this.rate},
+        });
+      },
+      init(){
+        this.rate = 1;
+    this.disabled = false;//要看是否已经评分或登录
+    if (this.$store.getters.getLogin)
+    this.axios({
+      url:"/rating-book-service/getRate/",
+      method:"get",
+      params:{userId:this.$store.getters.getId, bookId:this.book.id},
+       headers: {'Content-Type':'application/x-www-form-urlencoded;charset=UTF-8'},
+    }).then(res=>{
+      if (res.data.point > 0)
+    {
+      this.rate = res.data.point;
+      this.disabled=true;}
+    });
       }
     },
    created() {
-    this.disabled = false;//要看是否已经评分或登录
-    }
+     this.init();
+    },
+    watch:{
+      book(to, from) {
+        this.init();
+      }
+    },
+    deactivated(){this.$destroy();}
   }
 </script>
 

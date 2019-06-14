@@ -1,14 +1,15 @@
 <template>
 <el-container class="container">
   <el-header class="header">
-    <h4>您已登录，XXX</h4>
+    <h4 v-if="$store.getters.getLogin===true">您已登录 用户名:{{$store.getters.getName}} 用户id:{{$store.getters.getId}}</h4>
+    <h4 v-else>请登录</h4>
     <h1>书评网</h1>
   </el-header>
   <el-container>
     <el-aside class="aside">
       <el-menu>
         <el-menu-item-group class="items">
-          <el-menu-item index="1" v-if="true" @click="goto('/login')">登录</el-menu-item>
+          <el-menu-item index="1" v-if="$store.getters.getLogin===false" @click="goto('/login')">登录</el-menu-item>
           <el-menu-item index="4" v-else @click="logout">注销</el-menu-item>
           <el-menu-item index="2" @click="goto('/register')">注册</el-menu-item>
           <el-menu-item index="3" @click="goto('/upload')">上传</el-menu-item>
@@ -16,7 +17,7 @@
       </el-menu>
     </el-aside>
     <el-main class="main" >
-      <ul class="book" v-for="book in books.slice(currentPage*3-3, currentPage*3)">
+      <ul v-if="$store.getters.getLogin" class="book" v-for="book in books.slice(currentPage*3-3, currentPage*3)">
         <li><Book :book="book"></Book></li>
       </ul>
       <div class="button">
@@ -33,26 +34,31 @@
 export default {
   name: 'Home',
   data () {
-    const books = [];
-    for (let i = 0;i < 20;i++) books.push({id:i,author:i,title:i});
-    return {books: books, currentPage: 1, allPage: 0}
+    return {books: "", currentPage: 1, allPage: 1}
   },
   components:{Book},
   created() {
     this.axios({
-      url:"localhost:8080/book-service/books",
+      url:"/book-service/books",
       method:"get",
       headers:{'Content-Type':'application/x-www-form-urlencoded;charset=UTF-8'}
       }
     ).then(
       res => {
+        console.log(res.data);
         this.books = res.data;
-        this.allPage = res.data.length/3;
+        this.allPage = Math.ceil(res.data.length/3);
+        console.log(this.allPage);
       }
     );
   },
   methods:{
-    logout(){},
+    logout(){
+
+        alert("注销成功！");
+        this.$store.dispatch("login", false);
+
+    },
     goto(path){
       this.$router.push(path);
     },
@@ -63,6 +69,9 @@ export default {
       this.currentPage++;
     }
 
+  },
+  deactivated(){
+    this.$destroyed();
   }
 }
 </script>
@@ -85,6 +94,7 @@ export default {
     text-align: center;
     margin: 0!important;
     position: relative;
+    left: 60px;
     /*top :20px;*/
   }
   .header {

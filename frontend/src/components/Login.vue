@@ -21,9 +21,6 @@
               if (value === '') {
                 callback(new Error('请输入密码'));
               } else {
-                if (this.ruleForm.checkPass !== '') {
-                  this.$refs.ruleForm.validateField('checkPass');
-                }
                 callback();
               }
             };
@@ -31,7 +28,7 @@
               if (value==='') callback(new Error('请输入用户名'));
               else callback();
             };
-            return {
+            return {b:"",
               ruleForm: {
                 pass: '',
                 userName:''
@@ -47,32 +44,45 @@
       };
     },
     methods: {
-      async validateName(userName, password){
-        let b = "";
-        let a= await this.axios({
-          url:"localhost:8080/user-service/login/check",
-          methods:"post",
-          data:{usn:userName, psw:password},
-          headers:{'Content-Type':'application/x-www-form-urlencoded;charset=UTF-8'}
-        }).then(res =>{b= res.data});
-        return b === "Succeed";
+      validateName(userName, password){
+
       },
-      submitForm(formName) {
-        this.$refs[formName].validate((valid) => {
-          if (valid && this.validateName(this.ruleForm.userName, this.ruleForm.pass)) {
+      async submitForm(formName) {
+      this.b = "fail";
+       this.axios({
+          url:"/user-service/login/check",
+          method:"get",
+          params:{usn:this.ruleForm.userName, psw:this.ruleForm.pass},
+          headers:{'Content-Type':'application/json;charset=UTF-8'}
+        }).then(res =>{
+          this.b= res.data;
+          console.log(res.data.token)
+          if (this.b[0]==='S') this.$store.commit('set_token', res.data.token);
+          }).then(
+          res=>{
+       this.$refs[formName].validate((valid) => {
+          if (valid && this.b[0]==='S') {
             alert('登录成功！');
+            this.$store.dispatch('login', true);
+            this.$store.dispatch('name', this.ruleForm.userName);
+            this.$store.dispatch('id', this.b.substr(1));
             this.$router.push("/");
           } else {
-            console.log('error submit!!');
+            alert("登录失败！")
             return false;
           }
         });
+
+          }
+
+        );
+        
+ 
       },
       resetForm(formName) {
         this.$refs[formName].resetFields();
       }
     }
-
   }
 
 </script>
